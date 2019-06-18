@@ -45,7 +45,17 @@ const servidor = http.createServer((pedido, respuesta) => {
                 //Descomponemos en un vector separando por el punto laconstante camino:
                 const vec = camino.split('.');
 
-                
+                //Si tenemos por ejemplo "/pagina1.html" tras ejecutar split('.'), tendriamos vec[0] = /pagina1 y vec[1] = html
+                //Sacamos el ultimo elemento que almacena la extension del archivo.
+                const extension = vec[vec.length - 1];
+
+                //Rescatamos la propiedad del objeto MIME
+                const mimearchivo = mime[extension];
+
+                //Llamamos al metodo writeHead para devolver el tipo MIME para dicha extension
+                respuesta.writeHead(200, {'Content-Type': mimearchivo});
+                respuesta.write(contenido);
+                respuesta.end();
             }    
             });
             
@@ -56,3 +66,8 @@ const servidor = http.createServer((pedido, respuesta) => {
         }
     });
 });
+
+//Abrimos el servidor 8888
+servidor.listen(8888);
+
+console.log('Servidor web iniciado');
