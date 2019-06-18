@@ -35,7 +35,18 @@ const servidor = http.createServer((pedido, respuesta) => {
             //Lllamamos a readFile para leer el contenido. Tiene dos parametros( nombre del archivo(con ruta) ,funcion anonima con dos parametros (error, contenido del archivo) )
             fs.readFile(camino, (error,contenido) => {
 
+            //Verificamos si hubo error al traer los archivos a memoria el contenido del archivo
+            if (error) { //Devolvemos el codigo 500(el archivo existe ero no se puede leer)
+                respuesta.writeHead(500, {'Content-Type': 'text/plain'});
+                respuesta.write('Error interno');
+                respuesta.end();
+            } else {//Devolvemos mediante el objeto 'respuesta' el contenido completo del archivo
                 
+                //Descomponemos en un vector separando por el punto laconstante camino:
+                const vec = camino.split('.');
+
+                
+            }    
             });
             
         } else { // Si no existe el archivo, saltara un error 404 de recurso inexistente
